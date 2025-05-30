@@ -1,6 +1,6 @@
 flask
 openai
-elevenlabselevenlabs==2.1.0
+elevenlabs==2.1.0
 whisper
 sounddevice
 pygame
