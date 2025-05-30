@@ -96,7 +96,8 @@ def transcribe():
 
     # Convert reply to audio
     audio = generate(text=reply, voice=VOICE_ID)
-    audio_base64_reply = base64.b64encode(audio).decode("utf-8")
+    audio_bytes = b"".join(audio)  # this is the fix
+    audio_base64_reply = base64.b64encode(audio_bytes).decode("utf-8")
 
     return jsonify({
         "transcript": text,
