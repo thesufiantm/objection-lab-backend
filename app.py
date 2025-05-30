@@ -1,29 +1,42 @@
 from flask import Flask, request, jsonify
 import openai
-import elevenlabs
 import whisper
 import os
 import tempfile
-from elevenlabs import generate, play
+from elevenlabs.client import ElevenLabs
 from scipy.io.wavfile import write
 import base64
 import soundfile as sf
 from dotenv import load_dotenv
+
+# Load environment variables
 load_dotenv()
-openai.api_key = os.getenv("OPENAI_API_KEY")
-elevenlabs.set_api_key(os.getenv("ELEVEN_API_KEY"))
 
-
+# === Get API Keys ===
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 ELEVEN_API_KEY = os.getenv("ELEVEN_API_KEY")
-VOICE_ID = os.getenv("VOICE_ID")
+VOICE_ID = os.getenv("ELEVEN_VOICE_ID")
 
+# === Set OpenAI Key ===
+openai.api_key = OPENAI_API_KEY
 
-# === CONFIG ===
-openai.api_key = os.getenv("OPENAI_API_KEY")
-elevenlabs.set_api_key(os.getenv("ELEVEN_API_KEY"))
-VOICE_ID = os.getenv("VOICE_ID")
+# === Set up ElevenLabs Client ===
+client = ElevenLabs(api_key=ELEVEN_API_KEY)
+
+# === Optional: Test ElevenLabs TTS ===
+audio = client.text_to_speech.convert(
+    voice_id=VOICE_ID,
+    model_id="eleven_multilingual_v2",
+    text="Hello, how are you?"
+)
+
+with open("output.mp3", "wb") as f:
+    f.write(audio)
+
+# === Load Whisper Model ===
 model = whisper.load_model("base")
+
+# (Add your Flask routes and logic below...)
 
 # === FLASK SETUP ===
 app = Flask(__name__)
