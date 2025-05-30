@@ -31,7 +31,8 @@ audio = client.text_to_speech.convert(
 )
 
 with open("output.mp3", "wb") as f:
-    f.write(audio)
+    for chunk in audio:
+        f.write(chunk)
 
 # === Load Whisper Model ===
 model = whisper.load_model("base")
