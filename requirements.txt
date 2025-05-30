@@ -5,3 +5,4 @@ whisper
 sounddevice
 pygame
 scipy
+soundfile
