@@ -6,3 +6,5 @@ sounddevice
 pygame
 scipy
 soundfile
+python-dotenv
+numpy
